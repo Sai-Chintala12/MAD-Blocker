@@ -1,0 +1,382 @@
+Smart pop-up management
+
+This is one of the most important features you requested. We don't want to block useful windows just because they open separately from the current page.
+
+Expected behavior
+
+Scenario
+
+	
+
+Action
+
+
+
+
+You click a legitimate link that opens a new window
+
+	
+
+Allow
+
+
+
+
+You click a download or login button
+
+	
+
+Allow the intended action
+
+
+
+
+A trusted site needs a payment or authentication pop-up
+
+	
+
+Allow according to its site settings
+
+
+
+
+An unsolicited advertising tab opens
+
+	
+
+Block when detected
+
+
+
+
+A website automatically redirects you to an unrelated ad
+
+	
+
+Block when the rule identifies it
+
+
+
+
+A site opens repeated windows without your interaction
+
+	
+
+Block or ask for permission
+
+
+
+
+A legitimate feature stops working
+
+	
+
+Let you allow pop-ups for that site
+
+How the logic should work
+
+There is an important technical limitation: Chrome does not expose a universal event that lets an extension inspect every attempted pop-up and perfectly determine the user's intention. The extension should use browser-native pop-up protections, user-controlled site permissions, and appropriate navigation or request rules rather than claiming to detect every case.
+
+Site-level controls
+
+Each website should have settings for:
+
+Default: use normal blocking rules.
+
+Allow pop-ups: permit legitimate new windows for this site.
+
+Block more aggressively: apply stricter blocking rules.
+
+Pause CleanFeed: temporarily disable filtering for this site.
+
+A trusted-site list should be editable, and the user should be able to remove a site from it at any time.
+
+5. Extension interface and design
+
+The interface should be simple, fast, and easy to understand.
+
+CleanFeed
+
+Your browsing protection
+
+Active
+
+Blocking on this site
+
+Control filtering for the current website
+
+1,248
+
+Illustrative blocked requests
+
+Low
+
+Design goal for overhead
+
+Ad placeholder
+
+Black
+
+White
+
+Collapse
+
+Website settings
+
+Pop-ups, trusted sites, and exceptions
+
+Illustrative dashboard mockup. The blocked-request count and performance label above are examples, not measured results.
+
+The actual interface should contain:
+
+Main on/off switch.
+
+Current website's protection status.
+
+Black, white, or collapsed placeholder selector.
+
+Pop-up settings.
+
+Trusted website manager.
+
+Temporary pause option.
+
+Filter-list and extension update status.
+
+Privacy and diagnostic settings.
+
+We should use real counts from actual filtering events where available, rather than displaying fabricated statistics.
+
+6. Security and privacy requirements
+
+The extension itself must not become a security risk.
+
+Mandatory security rules
+
+Request only the permissions needed for its functionality.
+
+Avoid collecting or transmitting browsing history.
+
+Do not collect passwords, cookies, or form data.
+
+Do not execute arbitrary JavaScript downloaded from a remote server.
+
+Validate imported settings and custom rules.
+
+Keep trusted-site exceptions visible and easy to manage.
+
+Use HTTPS for any future filter-list updates.
+
+Review changes to filter lists before releasing updates.
+
+Keep dependencies minimal and regularly maintained.
+
+Never claim that ad blocking replaces antivirus, browser updates, or safe browsing practices.
+
+The extension will need some access to websites to filter their content. We should explain this access clearly to the user instead of requesting unrestricted permissions without a reason.
+
+7. Performance and PC temperature
+
+Performance should be a core design requirement, not something we check only at the end.
+
+Design choice
+
+	
+
+Why it matters
+
+
+
+
+Browser-native request filtering
+
+	
+
+Reduces the need to process each request in JavaScript
+
+
+
+
+Small, efficient filter lists
+
+	
+
+Limits rule-processing overhead
+
+
+
+
+Event-driven service worker
+
+	
+
+Avoids unnecessary background activity
+
+
+
+
+Targeted page cleanup
+
+	
+
+Prevents constant scanning of entire pages
+
+
+
+
+Mutation observers with sensible limits
+
+	
+
+Handles dynamically loaded ads without excessive CPU use
+
+
+
+
+No unnecessary network requests
+
+	
+
+Reduces bandwidth and background activity
+
+We should measure CPU usage, memory usage, page loading time, and video playback performance on your PC. There is no honest way to guarantee a particular temperature without testing on your actual hardware.
+
+8. Project folder structure
+
+This is the initial structure I recommend creating in VS Code.
+
+
+CleanFeed-Ad-Blocker/
+├── manifest.json
+├── README.md
+├── LICENSE
+├── .gitignore
+│
+├── rules/
+│   └── default-rules.json
+│
+├── src/
+│   ├── background/
+│   │   └── service-worker.js
+│   ├── content/
+│   │   ├── page-cleanup.js
+│   │   └── page-cleanup.css
+│   ├── popup/
+│   │   ├── popup.html
+│   │   ├── popup.css
+│   │   └── popup.js
+│   ├── options/
+│   │   ├── options.html
+│   │   ├── options.css
+│   │   └── options.js
+│   └── shared/
+│       └── settings.js
+│
+├── tests/
+│   ├── rules.test.js
+│   ├── settings.test.js
+│   └── popup-policy.test.js
+│
+└── docs/
+    ├── PROJECT_PLAN.md
+    ├── SECURITY.md
+    ├── PRIVACY.md
+    └── TESTING.md
+
+This is a proposed starting structure. We can adjust it as we implement the features. The actual manifest must declare the necessary scripts, permissions, and filtering rules correctly for Manifest V3.
+
+9. Development roadmap
+01
+
+Phase 1 — Basic working extension
+
+Create the manifest, toolbar popup, on/off switch, local settings, and initial network filtering. Load it into Chrome using Developer mode.
+
+02
+
+Phase 2 — Cosmetic filtering
+
+Add banner hiding, overlay cleanup, and black, white, or collapsed placeholders. Test dynamic pages.
+
+03
+
+Phase 3 — Smart pop-up handling
+
+Implement per-site settings, trusted sites, exceptions, and tests for user-initiated versus unsolicited pop-ups.
+
+04
+
+Phase 4 — YouTube and streaming websites
+
+Test supported filtering techniques, detect breakage, and improve compatibility without repeated page scans or aggressive reloads.
+
+05
+
+Phase 5 — Security and performance testing
+
+Check permissions, malicious rule handling, CPU and memory usage, browser compatibility, and website functionality.
+
+06
+
+Phase 6 — GitHub portfolio
+
+Add documentation, screenshots, automated tests, version tags, and a GitHub Actions workflow to validate changes.
+
+10. How we will test it
+
+Before considering the extension ready, we should test the following:
+
+Common banner ads are blocked.
+Recognized ad spaces follow the selected black, white, or collapse setting.
+Normal links, forms, login windows, and downloads still work.
+Unsolicited advertising pop-ups are blocked where detectable.
+Trusted-site exceptions work and can be removed.
+YouTube playback, seeking, subtitles, and fullscreen work.
+Movie and anime websites retain their video controls.
+The extension does not collect or transmit browsing history.
+CPU, memory, and page-load overhead are measured.
+Invalid filter rules and settings do not crash the extension.
+Disabling CleanFeed restores normal browser behavior as far as the extension's changes allow.
+11. GitHub and cost
+
+For your personal version:
+
+Development: VS Code and Chrome.
+
+Source control: Git and GitHub.
+
+Hosting: Not required.
+
+Database: Not required.
+
+Cloud services: Not required.
+
+Expected direct cost: $0 to start, assuming you use your existing PC and free development tools.
+
+GitHub Actions can be used for automated tests, subject to the applicable usage limits. We do not need AWS just to build or run this browser extension.
+
+The project is also a useful portfolio example because it demonstrates JavaScript, browser APIs, security-conscious development, automated testing, Git workflows, and CI.
+
+Final design decisions
+
+Here is the specification I recommend we follow:
+
+Browser
+
+Google Chrome first, with future cross-browser support.
+
+Ad presentation
+
+Black, white, or collapsed ad placeholders.
+
+Pop-ups
+
+Allow intentional pop-ups and configurable trusted-site exceptions; block unwanted ones when detectable.
+
+Performance
+
+Lightweight rules, minimal background work, and measured CPU usage.
+
+Privacy
+
+Local-first settings, minimal permissions, no browsing-history collection.

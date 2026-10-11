@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="MAD Blocker: protection on all sides">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff6b72"/>
+      <stop offset="1" stop-color="#b3202a"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .pulse  { transform-origin: 64px 64px; animation: pulse 3.2s ease-out infinite; }
+    .ring   { transform-origin: 64px 64px; animation: spin 14s linear infinite; }
+    .inner  { transform-origin: 64px 64px; animation: spin 22s linear infinite reverse; }
+    .shield { transform-origin: 64px 64px; animation: breathe 4s ease-in-out infinite; }
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes pulse   { 0% { transform: scale(.7); opacity: .6; } 100% { transform: scale(1.06); opacity: 0; } }
+    @keyframes breathe { 50% { transform: scale(1.04); } }
+    @media (prefers-reduced-motion: reduce) {
+      .pulse, .ring, .inner, .shield { animation: none; }
+      .pulse { opacity: 0; }
+    }
+  </style>
+  <!-- expanding wave: the shield pushing threats back -->
+  <circle class="pulse" cx="64" cy="64" r="56" fill="none" stroke="#ff6b72" stroke-width="2"/>
+  <!-- four guard arcs, one for each side -->
+  <circle class="ring" cx="64" cy="64" r="56" fill="none" stroke="#ff6b72" stroke-width="5"
+          stroke-linecap="round" stroke-dasharray="70 17.96"/>
+  <circle class="inner" cx="64" cy="64" r="47" fill="none" stroke="#ff6b72" stroke-width="2"
+          stroke-linecap="round" stroke-dasharray="6 10" opacity=".55"/>
+  <g class="shield">
+    <path d="M64 26 L92 36 V62 C92 80 80 92 64 100 C48 92 36 80 36 62 V36 Z" fill="url(#g)"/>
+    <path d="M51 62 L61 72 L79 52" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

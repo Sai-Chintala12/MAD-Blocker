@@ -1,0 +1,32 @@
+:root {
+  color-scheme: light dark;
+  /* Brand colours: keep in sync with popup.css */
+  --bg: #ffffff; --fg: #16181d; --muted: #5d6470; --line: #e1e4ea; --accent: #c7283a; --danger: #a8200f;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f1318; --fg: #eceff4; --muted: #a0a8b5; --line: #262c35; --accent: #ff6b72; --danger: #ffb4ab; }
+}
+.brand { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.logo { width: 64px; height: 64px; flex: none; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, "Segoe UI", sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 16px; margin: 28px 0 8px; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row input[type="text"] { flex: 1 1 200px; }
+input[type="text"], select, button { padding: 8px 10px; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+button { cursor: pointer; }
+button:hover, select:hover, input:hover { border-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.danger { color: var(--danger); }
+form { margin: 20px 0; }
+form label { display: block; font-weight: 600; margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+td:last-child { text-align: right; width: 1%; white-space: nowrap; }
+td.host { word-break: break-all; font-weight: 600; }
+#status { min-height: 1.4em; margin-top: 16px; }
+#status.error { color: var(--danger); }

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MAD Blocker settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <div class="brand">
+      <img class="logo" src="../../icons/logo-animated.svg" alt="">
+      <h1>MAD Blocker website settings</h1>
+    </div>
+    <p class="muted">Sites with a special setting. Remove a site at any time to return it to normal blocking.</p>
+
+    <form id="addForm">
+      <label for="newHost">Add a website</label>
+      <div class="row">
+        <input id="newHost" type="text" placeholder="example.com" autocomplete="off" spellcheck="false" maxlength="253">
+        <select id="newMode" aria-label="Setting for the new website">
+          <option value="paused">Pause MAD Blocker</option>
+          <option value="allow-popups">Allow pop-ups</option>
+          <option value="aggressive">Block more aggressively</option>
+        </select>
+        <button type="submit">Add</button>
+      </div>
+    </form>
+
+    <table>
+      <thead><tr><th>Website</th><th>Setting</th><th></th></tr></thead>
+      <tbody id="sites"></tbody>
+    </table>
+    <p id="empty" class="muted">No special settings yet.</p>
+    <p id="popupNotice" class="muted small" hidden></p>
+    <p class="muted small">
+      <strong>Allow pop-ups</strong> tells Chrome to allow pop-ups on that site. <strong>Block more aggressively</strong> tells Chrome to block them and adds extra pop-under rules.
+      Both need an optional permission that MAD Blocker asks for only when you first use them.
+      To undo them, set the sites back to Default (or remove them) before you remove the permission.
+    </p>
+
+    <h2>Backup</h2>
+    <div class="row">
+      <button type="button" id="export">Export settings</button>
+      <button type="button" id="importBtn">Import settings</button>
+      <button type="button" id="reset" class="danger">Remove all sites</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+    <p class="muted small">Imported files are size-checked and validated. Anything unexpected is ignored.</p>
+
+    <h2>Privacy</h2>
+    <p class="muted">MAD Blocker keeps settings on this device only. It does not collect browsing history, passwords, cookies or form data, and it makes no network requests of its own.</p>
+    <p id="status" role="status"></p>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

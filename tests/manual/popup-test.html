@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MAD Blocker pop-up test page</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; max-width: 640px; margin: 32px auto; padding: 0 16px; }
+    button, a.btn { display: inline-block; margin: 6px 6px 6px 0; padding: 10px 14px; font: inherit; cursor: pointer; }
+    #log { margin-top: 20px; padding: 12px; background: #f3f4f6; border-radius: 8px; white-space: pre-wrap; min-height: 4em; }
+  </style>
+</head>
+<body>
+  <h1>Pop-up test page</h1>
+  <p>Local test only. Use it to check how MAD Blocker's pop-up settings behave in your Chrome.</p>
+
+  <h2>1. A normal link (must always work)</h2>
+  <a class="btn" href="/target" target="_blank" rel="noopener">Open link in new tab</a>
+
+  <h2>2. Pop-up opened by your click</h2>
+  <button id="clickPopup" type="button">window.open on click</button>
+
+  <h2>3. Pop-up opened with no click (unsolicited)</h2>
+  <p>After you press the button, wait 7 seconds without touching anything. The pop-up opens after your click's permission has expired, like an ad pop-up would.</p>
+  <button id="autoPopup" type="button">Start 7-second timer</button>
+
+  <div id="log" role="status">Results appear here.</div>
+
+  <script>
+    const log = (text) => { document.getElementById('log').textContent += '\n' + text; };
+    const open = (label) => {
+      const w = window.open('/target', '_blank', 'width=420,height=300');
+      log(label + ': ' + (w ? 'OPENED' : 'BLOCKED'));
+    };
+    document.getElementById('log').textContent = 'Results appear here.';
+    document.getElementById('clickPopup').addEventListener('click', () => open('Pop-up on click'));
+    document.getElementById('autoPopup').addEventListener('click', () => {
+      log('Timer started...');
+      setTimeout(() => open('Unsolicited pop-up'), 7000);
+    });
+  </script>
+</body>
+</html>

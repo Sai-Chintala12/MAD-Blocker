@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MAD Blocker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img class="logo" src="../../icons/logo-animated.svg" alt="">
+      <div>
+        <h1>MAD Blocker</h1>
+        <p id="summary" class="muted">Loading…</p>
+      </div>
+    </div>
+    <label class="switch" title="Turn MAD Blocker on or off">
+      <input type="checkbox" id="enabled" aria-label="MAD Blocker on or off">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <section>
+    <h2>This website</h2>
+    <p id="host" class="host">—</p>
+    <label for="siteMode" class="visually-hidden">Setting for this website</label>
+    <select id="siteMode">
+      <option value="default">Default: normal blocking</option>
+      <option value="allow-popups">Allow pop-ups</option>
+      <option value="aggressive">Block more aggressively</option>
+      <option value="paused">Pause MAD Blocker here</option>
+    </select>
+    <p id="modeNote" class="muted small"></p>
+  </section>
+
+  <section>
+    <h2>Ad space</h2>
+    <div class="segmented" role="radiogroup" aria-label="Ad space style">
+      <label><input type="radio" name="placeholder" value="black"><span>Black</span></label>
+      <label><input type="radio" name="placeholder" value="white"><span>White</span></label>
+      <label><input type="radio" name="placeholder" value="collapse"><span>Collapse</span></label>
+    </div>
+  </section>
+
+  <footer>
+    <button type="button" id="openOptions">Website settings</button>
+    <p class="muted small">Blocked-request counts are not shown yet. We only show real numbers.</p>
+    <p id="status" class="small" role="status"></p>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

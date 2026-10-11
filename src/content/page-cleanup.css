@@ -1,0 +1,39 @@
+/*
+ * Cosmetic filtering. Nothing here applies unless page-cleanup.js has set
+ * data-mad="on" on <html>, which it only does when MAD Blocker is enabled
+ * and the site is not paused. Selectors are intentionally conservative, to
+ * avoid hiding real content. Add more per-site rules in Phase 2.
+ */
+
+/* Collapse: remove the container and reclaim the space. */
+html[data-mad="on"][data-mad-ph="collapse"] ins.adsbygoogle,
+html[data-mad="on"][data-mad-ph="collapse"] [id^="google_ads_iframe"],
+html[data-mad="on"][data-mad-ph="collapse"] [id^="div-gpt-ad"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="doubleclick.net"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="googlesyndication.com"] {
+  display: none !important;
+}
+
+/* Black: keep the space, paint it black, hide what is inside. */
+html[data-mad="on"][data-mad-ph="black"] ins.adsbygoogle,
+html[data-mad="on"][data-mad-ph="black"] [id^="google_ads_iframe"],
+html[data-mad="on"][data-mad-ph="black"] [id^="div-gpt-ad"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="doubleclick.net"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="googlesyndication.com"] {
+  background: #000 !important;
+  visibility: hidden !important;
+  outline: 9999px solid #000;
+  outline-offset: -9999px;
+}
+
+/* White: keep the space, paint it white, hide what is inside. */
+html[data-mad="on"][data-mad-ph="white"] ins.adsbygoogle,
+html[data-mad="on"][data-mad-ph="white"] [id^="google_ads_iframe"],
+html[data-mad="on"][data-mad-ph="white"] [id^="div-gpt-ad"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="doubleclick.net"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="googlesyndication.com"] {
+  background: #fff !important;
+  visibility: hidden !important;
+  outline: 9999px solid #fff;
+  outline-offset: -9999px;
+}
