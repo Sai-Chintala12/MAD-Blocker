@@ -67,7 +67,7 @@ Also try the **Black / White / Collapse** selector on a news site with ads. It a
 
 ```
 git config --global user.name "Sai Chintala"
-git config --global user.email "338782225+Sai-Chintala12@users.noreply.github.com"
+git config --global user.email "SaiChintala12@gmail.com"
 git init -b main
 git add .
 git commit -m "Initial commit: MAD Blocker Phase 1"
