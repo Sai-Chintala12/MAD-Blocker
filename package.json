@@ -1,12 +1,19 @@
 {
   "name": "mad-blocker",
-  "version": "0.1.0",
+  "version": "0.5.1",
   "private": true,
   "description": "Lightweight, privacy-first ad blocker for Chrome (Manifest V3).",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-cosmetic.js",
     "test": "node --test \"tests/*.test.js\"",
-    "test:popups": "node scripts/test-server.js"
+    "test:popups": "node scripts/test-server.js",
+    "e2e": "node scripts/e2e.mjs",
+    "e2e:popups": "node scripts/e2e-popups.mjs",
+    "e2e:streaming": "node scripts/e2e-streaming.mjs",
+    "perf": "node scripts/perf.mjs",
+    "check:privacy": "node scripts/check-privacy.mjs",
+    "package": "node scripts/package.mjs"
   },
   "engines": {
     "node": ">=22"

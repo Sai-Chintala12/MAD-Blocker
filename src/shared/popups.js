@@ -6,8 +6,10 @@
 // per site, what you decided:
 //   Default       -> nothing is changed, Chrome's normal pop-up blocker decides
 //   Allow pop-ups -> Chrome is told to allow pop-ups for that site
-//   Aggressive    -> Chrome is told to block pop-ups for that site, and extra
-//                    rules block well-known pop-under script and frame URLs
+//   Aggressive    -> Chrome's pop-up blocker is forced on for that site (even if the
+//                    user allowed pop-ups everywhere), and extra rules block well-known
+//                    pop-under script and frame URLs. Chrome's blocker never stops a
+//                    pop-up the user opened with a click, so logins and payments work.
 //   Paused        -> MAD Blocker steps aside completely (see rules.js)
 //
 // Changing Chrome's pop-up setting needs the optional "contentSettings"
@@ -27,10 +29,17 @@ export function needsPopupPermission(mode) {
 export function planPopupSettings(settings) {
   if (!settings.enabled) return [];
   const plan = [];
+  const allowing = settings.sites.filter((s) => s.mode === 'allow-popups');
   for (const site of settings.sites) {
     let setting = null;
     if (site.mode === 'allow-popups') setting = 'allow';
     else if (site.mode === 'aggressive') setting = 'block';
+    else if (site.mode === 'paused' && allowing.some((p) => site.host.endsWith('.' + p.host))) {
+      // Chrome applies a parent's "*.parent.com" pattern to every subdomain. A paused subdomain
+      // must not inherit "allow", so it gets Chrome's own default (the blocker on). Under an
+      // aggressive parent nothing is needed: that already is "block".
+      setting = 'block';
+    }
     if (!setting) continue;
     for (const scheme of ['http', 'https']) {
       plan.push({ pattern: `${scheme}://${site.host}/*`, setting });

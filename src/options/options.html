@@ -34,10 +34,39 @@
     <p id="empty" class="muted">No special settings yet.</p>
     <p id="popupNotice" class="muted small" hidden></p>
     <p class="muted small">
-      <strong>Allow pop-ups</strong> tells Chrome to allow pop-ups on that site. <strong>Block more aggressively</strong> tells Chrome to block them and adds extra pop-under rules.
+      <strong>Allow pop-ups</strong> tells Chrome to allow pop-ups on that site. <strong>Block more aggressively</strong> keeps Chrome's pop-up blocker on for that site (even if you allowed pop-ups everywhere) and adds extra pop-under rules. Pop-ups you open by clicking still work, so logins and payments are not broken.
       Both need an optional permission that MAD Blocker asks for only when you first use them.
       To undo them, set the sites back to Default (or remove them) before you remove the permission.
     </p>
+
+    <h2>Protections</h2>
+    <p class="muted small">If one of these breaks a site, switch it off here instead of turning MAD Blocker off. Reload open pages afterwards.</p>
+    <div class="protections">
+      <label class="check"><input type="checkbox" data-feature="youtubeNetwork"><span><strong>YouTube network rules</strong><br>Blocks known YouTube ad requests. Switch off if YouTube videos will not play or show an error.</span></label>
+      <label class="check"><input type="checkbox" data-feature="youtubeSkip"><span><strong>YouTube ad skipping</strong><br>Skips or fast-forwards ads inside the video player. Switch off if the player misbehaves.</span></label>
+      <label class="check"><input type="checkbox" data-feature="streaming"><span><strong>Streaming-site ad networks</strong><br>Blocks well-known pop-under and click-under ad networks, including tabs they try to open. Switch off if a site stops working.</span></label>
+    </div>
+
+    <h2>Hide a specific element</h2>
+    <p class="muted small">
+      If an ad slips through on a site, hide it yourself. Right-click the ad, choose <em>Inspect</em>, find its
+      <code>id</code> or <code>class</code> and enter it like <code>#top-banner</code> or <code>div.sponsored</code>.
+      The rule covers that site and its subdomains and uses the ad-space style you chose. Rules can only hide things,
+      and you can remove them here at any time.
+    </p>
+    <form id="customForm">
+      <div class="row">
+        <input id="customHost" type="text" placeholder="example.com" aria-label="Website for the new rule" autocomplete="off" spellcheck="false" maxlength="253">
+        <input id="customSelector" type="text" placeholder="#top-banner" aria-label="What to hide (CSS selector)" autocomplete="off" spellcheck="false" maxlength="200">
+        <button type="submit">Add rule</button>
+      </div>
+    </form>
+    <table>
+      <thead><tr><th>Website</th><th>Hides</th><th></th></tr></thead>
+      <tbody id="customRules"></tbody>
+    </table>
+    <p id="customEmpty" class="muted">No custom rules yet.</p>
+    <div class="row"><button type="button" id="resetCustom" class="danger">Remove all custom rules</button></div>
 
     <h2>Backup</h2>
     <div class="row">

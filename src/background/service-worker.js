@@ -1,13 +1,13 @@
 // MAD Blocker background service worker (event-driven, no timers, no network calls).
 import {
   validateSettings, setSiteMode, removeSite, normalizeHost, parseImport,
+  addCustomSelector, removeCustomSelector, setFeature,
   createDefaultSettings, PLACEHOLDERS, MODES
 } from '../shared/settings.js';
-import { buildDynamicRules } from '../shared/rules.js';
+import { buildDynamicRules, rulesetPlan } from '../shared/rules.js';
 import { planPopupSettings, POPUP_PERMISSION } from '../shared/popups.js';
 
 const STORAGE_KEY = 'settings';
-const RULESET_ID = 'default_rules';
 
 async function loadSettings() {
   const stored = await chrome.storage.local.get(STORAGE_KEY);
@@ -45,11 +45,11 @@ async function applyPopupSettings(settings) {
 
 // Push settings into Chrome's native network filtering and pop-up blocker.
 async function applySettings(settings) {
-  await chrome.declarativeNetRequest.updateEnabledRulesets(
-    settings.enabled
-      ? { enableRulesetIds: [RULESET_ID] }
-      : { disableRulesetIds: [RULESET_ID] }
-  );
+  const plan = rulesetPlan(settings);
+  await chrome.declarativeNetRequest.updateEnabledRulesets({
+    enableRulesetIds: plan.enable,
+    disableRulesetIds: plan.disable
+  });
   const existing = await chrome.declarativeNetRequest.getDynamicRules();
   await chrome.declarativeNetRequest.updateDynamicRules({
     removeRuleIds: existing.map((r) => r.id),
@@ -94,6 +94,14 @@ async function handle(message) {
     }
     case 'resetSites':
       return await change((s) => ({ ...s, sites: [] }));
+    case 'addCustomSelector':
+      return await change((s) => addCustomSelector(s, message.host, message.selector));
+    case 'removeCustomSelector':
+      return await change((s) => removeCustomSelector(s, message.host, message.selector));
+    case 'setFeature':
+      return await change((s) => setFeature(s, message.name, message.value));
+    case 'resetCustom':
+      return await change((s) => ({ ...s, custom: [] }));
     case 'importSettings': {
       const parsed = parseImport(message.text);
       if (!parsed.ok) throw new Error(parsed.error);

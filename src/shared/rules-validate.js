@@ -24,8 +24,15 @@ const DOMAIN_KEYS = [
 
 const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
 
-/** Returns a list of human-readable problems. Empty list means the rules are acceptable. */
-export function validateRuleList(rules) {
+/**
+ * Returns a list of human-readable problems. Empty list means the rules are acceptable.
+ *
+ * options.allowMainFrameBlock: for the BUNDLED, code-reviewed ad-network lists only. It lets a
+ * rule block page navigations (this is how click-under tabs to ad networks are stopped), but only
+ * when the rule names its target domains. Dynamic rules and any future downloaded list are always
+ * validated without it, so they can never block a page the user navigates to.
+ */
+export function validateRuleList(rules, options = {}) {
   const errors = [];
   if (!Array.isArray(rules)) return ['Rules must be an array'];
   if (rules.length > MAX_RULES) errors.push(`Too many rules (max ${MAX_RULES})`);
@@ -81,7 +88,11 @@ export function validateRuleList(rules) {
       if (!Array.isArray(cond.resourceTypes) || cond.resourceTypes.length === 0) {
         errors.push(`${at}: block rules must list resourceTypes`);
       } else if (cond.resourceTypes.includes('main_frame')) {
-        errors.push(`${at}: block rules must not block main_frame (page navigation)`);
+        if (!options.allowMainFrameBlock) {
+          errors.push(`${at}: block rules must not block main_frame (page navigation)`);
+        } else if (!Array.isArray(cond.requestDomains) || cond.requestDomains.length === 0) {
+          errors.push(`${at}: a rule that blocks main_frame must name its requestDomains`);
+        }
       }
       if (!cond.urlFilter && !cond.requestDomains && !cond.initiatorDomains) {
         errors.push(`${at}: block rules must be targeted (urlFilter, requestDomains or initiatorDomains)`);

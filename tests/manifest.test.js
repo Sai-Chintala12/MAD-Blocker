@@ -47,7 +47,9 @@ test('CSP stays strict', () => {
 
 test('content scripts only target http(s) and are not run on every scheme', () => {
   for (const cs of manifest.content_scripts ?? []) {
-    for (const m of cs.matches) assert.match(m, /^https?:\/\/\*\/\*$|^\*:\/\/\*\/\*$/);
+    for (const m of cs.matches) {
+      assert.match(m, /^https?:\/\/\*\/\*$|^\*:\/\/\*\/\*$|^https:\/\/(www|m)\.youtube\.com\/\*$/);
+    }
   }
 });
 
@@ -87,5 +89,17 @@ test('local files referenced by the popup and options pages exist', () => {
       const full = fileURLToPath(new URL(dir + ref, new URL('../', import.meta.url)));
       assert.ok(existsSync(full), `${page} references a missing file: ${ref}`);
     }
+  }
+});
+
+test('only youtube-main.js runs in the page world, only on YouTube, and it is network-silent', async () => {
+  const main = manifest.content_scripts.filter((c) => c.world === 'MAIN');
+  assert.equal(main.length, 1);
+  assert.deepEqual(main[0].js, ['src/content/youtube-main.js']);
+  for (const m of main[0].matches) assert.match(m, /^https:\/\/(www|m)\.youtube\.com\/\*$/);
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(root('src/content/youtube-main.js'), 'utf8');
+  for (const bad of [/\bchrome\./, /XMLHttpRequest/, /\bfetch\s*\(/, /sendBeacon/, /postMessage/, /localStorage/, /document\.cookie/]) {
+    assert.doesNotMatch(src, bad, `youtube-main.js must not use ${bad}`);
   }
 });

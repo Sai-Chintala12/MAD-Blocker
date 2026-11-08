@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MAD Blocker",
-  "version": "0.1.0",
+  "version": "0.5.1",
   "description": "Lightweight, privacy-first ad and tracker blocker. Collects no data.",
   "minimum_chrome_version": "120",
   "icons": {
@@ -9,8 +9,14 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["storage", "declarativeNetRequest", "activeTab"],
-  "optional_permissions": ["contentSettings"],
+  "permissions": [
+    "storage",
+    "declarativeNetRequest",
+    "activeTab"
+  ],
+  "optional_permissions": [
+    "contentSettings"
+  ],
   "background": {
     "service_worker": "src/background/service-worker.js",
     "type": "module"
@@ -26,12 +32,26 @@
   "options_page": "src/options/options.html",
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "css": ["src/content/page-cleanup.css"],
-      "js": ["src/content/page-cleanup.js"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "css": [
+        "src/content/page-cleanup.css"
+      ],
+      "js": [
+        "src/content/page-cleanup.js"
+      ],
       "run_at": "document_start",
       "all_frames": true
-    }
+    },
+{
+  "matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"],
+  "js": ["src/content/youtube-main.js"],
+  "run_at": "document_start",
+  "world": "MAIN",
+  "all_frames": false
+}
   ],
   "declarative_net_request": {
     "rule_resources": [
@@ -39,10 +59,23 @@
         "id": "default_rules",
         "enabled": true,
         "path": "rules/default-rules.json"
+      },
+      {
+        "id": "youtube_rules",
+        "enabled": true,
+        "path": "rules/youtube-rules.json"
+      },
+      {
+        "id": "streaming_rules",
+        "enabled": true,
+        "path": "rules/streaming-rules.json"
       }
     ]
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   }
+
+  
 }
+

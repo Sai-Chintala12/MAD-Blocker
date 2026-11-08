@@ -1,10 +1,10 @@
 :root {
   color-scheme: light dark;
   /* Brand colours: keep in sync with popup.css */
-  --bg: #ffffff; --fg: #16181d; --muted: #5d6470; --line: #e1e4ea; --accent: #c7283a; --danger: #a8200f;
+  --bg: #ffffff; --fg: #16181d; --muted: #5d6470; --line: #e1e4ea; --accent: #1f5fd1; --danger: #a8200f;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0f1318; --fg: #eceff4; --muted: #a0a8b5; --line: #262c35; --accent: #ff6b72; --danger: #ffb4ab; }
+  :root { --bg: #0f1318; --fg: #eceff4; --muted: #a0a8b5; --line: #262c35; --accent: #6aa2ff; --danger: #ffb4ab; }
 }
 .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
 .logo { width: 64px; height: 64px; flex: none; }
@@ -27,6 +27,13 @@ form label { display: block; font-weight: 600; margin-bottom: 6px; }
 table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
 td:last-child { text-align: right; width: 1%; white-space: nowrap; }
+.protections { margin: 8px 0 4px; }
+.check { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0; cursor: pointer; }
+.check input { margin-top: 4px; width: 18px; height: 18px; flex: none; accent-color: var(--accent); }
+.check span { font-size: 14px; }
 td.host { word-break: break-all; font-weight: 600; }
+td.selector, code { font-family: ui-monospace, Consolas, "Cascadia Mono", monospace; font-size: 13px; }
+td.selector { word-break: break-all; }
+#customRules td:last-child { text-align: right; }
 #status { min-height: 1.4em; margin-top: 16px; }
 #status.error { color: var(--danger); }

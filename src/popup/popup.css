@@ -5,12 +5,12 @@
   --fg: #16181d;
   --muted: #5d6470;
   --line: #e1e4ea;
-  --accent: #c7283a;
+  --accent: #1f5fd1;
   --on-accent: #ffffff;
   --danger: #a8200f;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0f1318; --fg: #eceff4; --muted: #a0a8b5; --line: #262c35; --accent: #ff6b72; --on-accent: #1a0508; --danger: #ffb4ab; }
+  :root { --bg: #0f1318; --fg: #eceff4; --muted: #a0a8b5; --line: #262c35; --accent: #6aa2ff; --on-accent: #06142e; --danger: #ffb4ab; }
 }
 .brand { display: flex; align-items: center; gap: 10px; }
 .logo { width: 44px; height: 44px; flex: none; }

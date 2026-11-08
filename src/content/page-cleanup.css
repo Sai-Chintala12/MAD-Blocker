@@ -1,39 +1,247 @@
-/*
- * Cosmetic filtering. Nothing here applies unless page-cleanup.js has set
- * data-mad="on" on <html>, which it only does when MAD Blocker is enabled
- * and the site is not paused. Selectors are intentionally conservative, to
- * avoid hiding real content. Add more per-site rules in Phase 2.
- */
+/* GENERATED FILE: do not edit by hand.
+ * Source: rules/cosmetic.json and rules/default-rules.json. Regenerate with: npm run build
+ * Rules only apply when page-cleanup.js has set data-mad="on" on <html>,
+ * which happens only while MAD Blocker is on and the site is not paused. */
 
-/* Collapse: remove the container and reclaim the space. */
-html[data-mad="on"][data-mad-ph="collapse"] ins.adsbygoogle,
-html[data-mad="on"][data-mad-ph="collapse"] [id^="google_ads_iframe"],
-html[data-mad="on"][data-mad-ph="collapse"] [id^="div-gpt-ad"],
-html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="doubleclick.net"],
-html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="googlesyndication.com"] {
+/* Overlays always collapse, because a black or white overlay would cover the page. */
+html[data-mad="on"] ins.adsbygoogle[data-anchor-status],
+html[data-mad="on"] ins.adsbygoogle[data-vignette-status],
+html[data-mad="on"] iframe[id^="google_ads_iframe"][style*="position: fixed"],
+html[data-mad="on"] amp-sticky-ad,
+html[data-mad="on"] ins.adsbygoogle[data-vignette-loaded] {
   display: none !important;
 }
 
-/* Black: keep the space, paint it black, hide what is inside. */
-html[data-mad="on"][data-mad-ph="black"] ins.adsbygoogle,
-html[data-mad="on"][data-mad-ph="black"] [id^="google_ads_iframe"],
-html[data-mad="on"][data-mad-ph="black"] [id^="div-gpt-ad"],
-html[data-mad="on"][data-mad-ph="black"] iframe[src*="doubleclick.net"],
-html[data-mad="on"][data-mad-ph="black"] iframe[src*="googlesyndication.com"] {
-  background: #000 !important;
-  visibility: hidden !important;
-  outline: 9999px solid #000;
-  outline-offset: -9999px;
+/* Ad containers, style: collapse */
+html[data-mad="on"][data-mad-ph="collapse"] ins.adsbygoogle,
+html[data-mad="on"][data-mad-ph="collapse"] .adsbygoogle,
+html[data-mad="on"][data-mad-ph="collapse"] [id^="google_ads_iframe"],
+html[data-mad="on"][data-mad-ph="collapse"] [id^="google_ads_frame"],
+html[data-mad="on"][data-mad-ph="collapse"] [id^="div-gpt-ad"],
+html[data-mad="on"][data-mad-ph="collapse"] [data-google-query-id],
+html[data-mad="on"][data-mad-ph="collapse"] amp-ad,
+html[data-mad="on"][data-mad-ph="collapse"] amp-embed[type="taboola"],
+html[data-mad="on"][data-mad-ph="collapse"] amp-embed[type="outbrain"],
+html[data-mad="on"][data-mad-ph="collapse"] [id^="taboola-"],
+html[data-mad="on"][data-mad-ph="collapse"] .trc_rbox_container,
+html[data-mad="on"][data-mad-ph="collapse"] .trc_related_container,
+html[data-mad="on"][data-mad-ph="collapse"] .OUTBRAIN,
+html[data-mad="on"][data-mad-ph="collapse"] .ob-widget,
+html[data-mad="on"][data-mad-ph="collapse"] [id^="aswift_"],
+html[data-mad="on"][data-mad-ph="collapse"] .google-auto-placed,
+html[data-mad="on"][data-mad-ph="collapse"] [id^="gpt_unit_"],
+html[data-mad="on"][data-mad-ph="collapse"] ins[data-revive-zoneid],
+html[data-mad="on"][data-mad-ph="collapse"] .adthrive-ad,
+html[data-mad="on"][data-mad-ph="collapse"] .ezoic-ad,
+html[data-mad="on"][data-mad-ph="collapse"] [id^="ezoic-pub-ad-placeholder"],
+html[data-mad="on"][data-mad-ph="collapse"] .mv-ad-box,
+html[data-mad="on"][data-mad-ph="collapse"] #carbonads,
+html[data-mad="on"][data-mad-ph="collapse"] .carbon-wrap,
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="2mdn.net/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="adcash.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="adnxs.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="adservice.google.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="adsrvr.org/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="adsterra.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="advertising.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="amazon-adsystem.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="casalemedia.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="clickadu.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="criteo.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="criteo.net/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="doubleclick.net/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="exoclick.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="googleadservices.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="googlesyndication.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="hilltopads.net/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="moatads.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="openx.net/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="outbrain.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="popads.net/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="popcash.net/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="propellerads.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="pubmatic.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="rubiconproject.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="smartadserver.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="taboola.com/"],
+html[data-mad="on"][data-mad-ph="collapse"] iframe[src*="yieldmo.com/"] {
+  display: none !important;
 }
 
-/* White: keep the space, paint it white, hide what is inside. */
+/* Ad containers, style: black */
+html[data-mad="on"][data-mad-ph="black"] ins.adsbygoogle,
+html[data-mad="on"][data-mad-ph="black"] .adsbygoogle,
+html[data-mad="on"][data-mad-ph="black"] [id^="google_ads_iframe"],
+html[data-mad="on"][data-mad-ph="black"] [id^="google_ads_frame"],
+html[data-mad="on"][data-mad-ph="black"] [id^="div-gpt-ad"],
+html[data-mad="on"][data-mad-ph="black"] [data-google-query-id],
+html[data-mad="on"][data-mad-ph="black"] amp-ad,
+html[data-mad="on"][data-mad-ph="black"] amp-embed[type="taboola"],
+html[data-mad="on"][data-mad-ph="black"] amp-embed[type="outbrain"],
+html[data-mad="on"][data-mad-ph="black"] [id^="taboola-"],
+html[data-mad="on"][data-mad-ph="black"] .trc_rbox_container,
+html[data-mad="on"][data-mad-ph="black"] .trc_related_container,
+html[data-mad="on"][data-mad-ph="black"] .OUTBRAIN,
+html[data-mad="on"][data-mad-ph="black"] .ob-widget,
+html[data-mad="on"][data-mad-ph="black"] [id^="aswift_"],
+html[data-mad="on"][data-mad-ph="black"] .google-auto-placed,
+html[data-mad="on"][data-mad-ph="black"] [id^="gpt_unit_"],
+html[data-mad="on"][data-mad-ph="black"] ins[data-revive-zoneid],
+html[data-mad="on"][data-mad-ph="black"] .adthrive-ad,
+html[data-mad="on"][data-mad-ph="black"] .ezoic-ad,
+html[data-mad="on"][data-mad-ph="black"] [id^="ezoic-pub-ad-placeholder"],
+html[data-mad="on"][data-mad-ph="black"] .mv-ad-box,
+html[data-mad="on"][data-mad-ph="black"] #carbonads,
+html[data-mad="on"][data-mad-ph="black"] .carbon-wrap,
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="2mdn.net/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="adcash.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="adnxs.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="adservice.google.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="adsrvr.org/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="adsterra.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="advertising.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="amazon-adsystem.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="casalemedia.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="clickadu.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="criteo.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="criteo.net/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="doubleclick.net/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="exoclick.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="googleadservices.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="googlesyndication.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="hilltopads.net/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="moatads.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="openx.net/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="outbrain.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="popads.net/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="popcash.net/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="propellerads.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="pubmatic.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="rubiconproject.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="smartadserver.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="taboola.com/"],
+html[data-mad="on"][data-mad-ph="black"] iframe[src*="yieldmo.com/"] {
+  background: #000 !important; filter: brightness(0) !important; pointer-events: none !important;
+}
+
+/* Ad containers, style: white */
 html[data-mad="on"][data-mad-ph="white"] ins.adsbygoogle,
+html[data-mad="on"][data-mad-ph="white"] .adsbygoogle,
 html[data-mad="on"][data-mad-ph="white"] [id^="google_ads_iframe"],
+html[data-mad="on"][data-mad-ph="white"] [id^="google_ads_frame"],
 html[data-mad="on"][data-mad-ph="white"] [id^="div-gpt-ad"],
-html[data-mad="on"][data-mad-ph="white"] iframe[src*="doubleclick.net"],
-html[data-mad="on"][data-mad-ph="white"] iframe[src*="googlesyndication.com"] {
-  background: #fff !important;
-  visibility: hidden !important;
-  outline: 9999px solid #fff;
-  outline-offset: -9999px;
+html[data-mad="on"][data-mad-ph="white"] [data-google-query-id],
+html[data-mad="on"][data-mad-ph="white"] amp-ad,
+html[data-mad="on"][data-mad-ph="white"] amp-embed[type="taboola"],
+html[data-mad="on"][data-mad-ph="white"] amp-embed[type="outbrain"],
+html[data-mad="on"][data-mad-ph="white"] [id^="taboola-"],
+html[data-mad="on"][data-mad-ph="white"] .trc_rbox_container,
+html[data-mad="on"][data-mad-ph="white"] .trc_related_container,
+html[data-mad="on"][data-mad-ph="white"] .OUTBRAIN,
+html[data-mad="on"][data-mad-ph="white"] .ob-widget,
+html[data-mad="on"][data-mad-ph="white"] [id^="aswift_"],
+html[data-mad="on"][data-mad-ph="white"] .google-auto-placed,
+html[data-mad="on"][data-mad-ph="white"] [id^="gpt_unit_"],
+html[data-mad="on"][data-mad-ph="white"] ins[data-revive-zoneid],
+html[data-mad="on"][data-mad-ph="white"] .adthrive-ad,
+html[data-mad="on"][data-mad-ph="white"] .ezoic-ad,
+html[data-mad="on"][data-mad-ph="white"] [id^="ezoic-pub-ad-placeholder"],
+html[data-mad="on"][data-mad-ph="white"] .mv-ad-box,
+html[data-mad="on"][data-mad-ph="white"] #carbonads,
+html[data-mad="on"][data-mad-ph="white"] .carbon-wrap,
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="2mdn.net/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="adcash.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="adnxs.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="adservice.google.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="adsrvr.org/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="adsterra.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="advertising.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="amazon-adsystem.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="casalemedia.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="clickadu.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="criteo.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="criteo.net/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="doubleclick.net/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="exoclick.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="googleadservices.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="googlesyndication.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="hilltopads.net/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="moatads.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="openx.net/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="outbrain.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="popads.net/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="popcash.net/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="propellerads.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="pubmatic.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="rubiconproject.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="smartadserver.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="taboola.com/"],
+html[data-mad="on"][data-mad-ph="white"] iframe[src*="yieldmo.com/"] {
+  background: #000 !important; filter: brightness(0) invert(1) !important; pointer-events: none !important;
+}
+
+/* youtube.com, style: collapse */
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-ad-slot-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-in-feed-ad-layout-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-display-ad-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-promoted-sparkles-web-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-promoted-video-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-banner-promo-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-statement-banner-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-companion-slot-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-action-companion-ad-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-player-legacy-desktop-watch-ads-renderer,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-rich-item-renderer:has(ytd-ad-slot-renderer),
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"],
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] #masthead-ad,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] #player-ads,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] .ytp-ad-overlay-container,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] .ytp-ad-image-overlay,
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] ytd-rich-section-renderer:has(a[href^="/playables"]),
+html[data-mad="on"][data-mad-ph="collapse"][data-mad-host~="youtube.com"] .ytp-ad-text-overlay {
+  display: none !important;
+}
+
+/* youtube.com, style: black */
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-ad-slot-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-in-feed-ad-layout-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-display-ad-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-promoted-sparkles-web-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-promoted-video-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-banner-promo-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-statement-banner-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-companion-slot-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-action-companion-ad-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-player-legacy-desktop-watch-ads-renderer,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-rich-item-renderer:has(ytd-ad-slot-renderer),
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"],
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] #masthead-ad,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] #player-ads,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] .ytp-ad-overlay-container,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] .ytp-ad-image-overlay,
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] ytd-rich-section-renderer:has(a[href^="/playables"]),
+html[data-mad="on"][data-mad-ph="black"][data-mad-host~="youtube.com"] .ytp-ad-text-overlay {
+  background: #000 !important; filter: brightness(0) !important; pointer-events: none !important;
+}
+
+/* youtube.com, style: white */
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-ad-slot-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-in-feed-ad-layout-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-display-ad-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-promoted-sparkles-web-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-promoted-video-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-banner-promo-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-statement-banner-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-companion-slot-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-action-companion-ad-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-player-legacy-desktop-watch-ads-renderer,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-rich-item-renderer:has(ytd-ad-slot-renderer),
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"],
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] #masthead-ad,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] #player-ads,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] .ytp-ad-overlay-container,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] .ytp-ad-image-overlay,
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] ytd-rich-section-renderer:has(a[href^="/playables"]),
+html[data-mad="on"][data-mad-ph="white"][data-mad-host~="youtube.com"] .ytp-ad-text-overlay {
+  background: #000 !important; filter: brightness(0) invert(1) !important; pointer-events: none !important;
 }

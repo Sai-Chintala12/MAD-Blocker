@@ -1,5 +1,5 @@
 // Options page: manage per-site settings, export / import. textContent only.
-import { MODES, MAX_IMPORT_BYTES } from '../shared/settings.js';
+import { MODES, MAX_IMPORT_BYTES, parseImport, summarizeSettings } from '../shared/settings.js';
 import { needsPopupPermission } from '../shared/popups.js';
 import { requestPopupPermission } from '../shared/permissions.js';
 
@@ -85,6 +85,42 @@ function render() {
     tr.append(hostCell, modeCell, actionCell);
     body.append(tr);
   }
+  renderProtections();
+  renderCustom();
+}
+
+function renderProtections() {
+  for (const box of document.querySelectorAll('input[data-feature]')) {
+    box.checked = settings.features[box.dataset.feature] !== false;
+  }
+}
+
+function renderCustom() {
+  const body = $('customRules');
+  body.replaceChildren();
+  const rules = [...settings.custom].sort((a, b) => a.host.localeCompare(b.host) || a.selector.localeCompare(b.selector));
+  $('customEmpty').hidden = rules.length > 0;
+  $('resetCustom').hidden = rules.length === 0;
+
+  for (const rule of rules) {
+    const tr = document.createElement('tr');
+    const hostCell = document.createElement('td');
+    hostCell.className = 'host';
+    hostCell.textContent = rule.host;
+    const selectorCell = document.createElement('td');
+    selectorCell.className = 'selector';
+    selectorCell.textContent = rule.selector;
+    const actionCell = document.createElement('td');
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.textContent = 'Remove';
+    remove.setAttribute('aria-label', `Remove rule ${rule.selector} for ${rule.host}`);
+    remove.addEventListener('click', () =>
+      run(() => send({ type: 'removeCustomSelector', host: rule.host, selector: rule.selector })));
+    actionCell.append(remove);
+    tr.append(hostCell, selectorCell, actionCell);
+    body.append(tr);
+  }
 }
 
 async function run(action, okText = '') {
@@ -110,7 +146,16 @@ function exportSettings() {
 async function importFile(file) {
   if (!file) return;
   if (file.size > MAX_IMPORT_BYTES) throw new Error('File is too large');
-  await send({ type: 'importSettings', text: await file.text() });
+  const text = await file.text();
+  const parsed = parseImport(text);
+  if (!parsed.ok) throw new Error(parsed.error);
+  // Show what the file would do BEFORE applying it. A settings file from somebody else could pause
+  // protection on a site or hide an element you need (for example a security warning).
+  const question = 'This file will REPLACE all your current settings with the following:\n\n' +
+    summarizeSettings(parsed.settings).join('\n') +
+    '\n\nOnly continue if you trust the person who gave you this file.';
+  if (!confirm(question)) throw new Error('Import cancelled. Nothing was changed.');
+  await send({ type: 'importSettings', text });
 }
 
 async function init() {
@@ -126,6 +171,27 @@ async function init() {
       await send({ type: 'setSiteMode', host, mode });
       $('newHost').value = '';
     }, 'Saved. Reload open tabs of that site for the change to apply.');
+  });
+
+  for (const box of document.querySelectorAll('input[data-feature]')) {
+    box.addEventListener('change', () => {
+      const name = box.dataset.feature;
+      const value = box.checked; // read before awaiting
+      run(() => send({ type: 'setFeature', name, value }), 'Saved. Reload open pages for it to apply.');
+    });
+  }
+
+  $('customForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const host = $('customHost').value;
+    const selector = $('customSelector').value;
+    run(async () => {
+      await send({ type: 'addCustomSelector', host, selector });
+      $('customSelector').value = '';
+    }, 'Rule added. It applies to open pages of that site right away.');
+  });
+  $('resetCustom').addEventListener('click', () => {
+    if (confirm('Remove all custom rules?')) run(() => send({ type: 'resetCustom' }), 'All custom rules removed.');
   });
 
   $('export').addEventListener('click', exportSettings);

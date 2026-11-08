@@ -18,3 +18,9 @@ jobs:
           node-version: 22
       - name: Run tests
         run: npm test
+      - name: Check that the stylesheet is up to date
+        run: npm run build -- --check
+      - name: Check for personal information
+        run: npm run check:privacy
+      - name: Build the store package
+        run: npm run package

@@ -14,14 +14,9 @@ Check Google's current rules and fees on the Developer Dashboard before starting
 
 1. Finish and run the **release checklist** in `docs/SECURITY.md`.
 2. Bump `version` in `manifest.json` and `package.json`.
-3. Build the zip from the project folder (Windows 10/11 terminal). The files must be at the **root** of the zip:
-
-```
-tar -a -c -f MAD-Blocker.zip manifest.json rules src icons
-```
-
-   Do not include `tests`, `docs`, `.git` or `node_modules`.
-4. Test the zip: unzip it into a new folder and **Load unpacked** it.
+3. Build the package with `npm run package`. It writes `dist/MAD-Blocker-v<version>.zip` with only `manifest.json`, `rules/`, `src/` and `icons/`, and `manifest.json` at the top. It refuses to build if the two version numbers differ, if a file the manifest needs is missing, or if personal information is found in the project files. (Do not use `tar -a` in Git Bash: its `tar` cannot make zip files.)
+4. Run `npm run check:privacy` too. It also checks your Git history, which the package step does not.
+5. Test the zip: unzip it into a new folder and **Load unpacked** it.
 
 ### Host the privacy policy
 
@@ -41,6 +36,7 @@ The store needs a public URL. Easiest: make the repo public (or use GitHub Pages
 
 ### Listing rules of thumb
 
+- Expect the install warning "Read and change all your data on all websites". Explain it in the privacy tab: "Needed to hide advertising elements on every page the user visits. No page content is read or sent." The extra YouTube script needs its own sentence: "Skips advertisements in the YouTube player."
 - Keep it single-purpose: ads and trackers only. No unrelated features.
 - Don't promise more than you deliver: say "helps reduce ads", never "blocks all ads", and don't claim YouTube blocking works permanently.
 - Don't mention piracy, or name movie or anime streaming sites, in the listing or screenshots.

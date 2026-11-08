@@ -25,7 +25,7 @@ Use the default options in each installer. Restart VS Code after installing Node
 npm test
 ```
 
-You should see `# pass 46` and `# fail 0`. There is nothing to install: the project has **no dependencies**, which is deliberate (less code from strangers means less attack surface).
+You should see `# pass 116` and `# fail 0`. There is nothing to install: the project has **no dependencies**, which is deliberate (less code from strangers means less attack surface).
 
 ## 4. Load the extension in Chrome
 
@@ -66,8 +66,8 @@ Also try the **Black / White / Collapse** selector on a news site with ads. It a
 3. In the VS Code terminal:
 
 ```
-git config --global user.name "Sai Chintala"
-git config --global user.email "SaiChintala12@gmail.com"
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
 git init -b main
 git add .
 git commit -m "Initial commit: MAD Blocker Phase 1"

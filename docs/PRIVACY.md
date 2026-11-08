@@ -22,6 +22,7 @@ Your settings (on or off, ad-space style, and the list of websites with special 
 - **Network request blocking (declarativeNetRequest):** Chrome applies MAD Blocker's rules inside the browser. MAD Blocker does not see or log the requests.
 - **Active tab:** used only when you open the popup, to show and change the setting for the current website.
 - **Pop-up settings (optional permission):** only if you choose "Allow pop-ups" or "Block more aggressively" for a site, MAD Blocker asks Chrome for permission to change Chrome's pop-up setting for those websites. It changes nothing else and sees no pop-up content.
+- **YouTube:** on YouTube pages a small script watches whether the video player is showing an ad, and skips it. It does not read, store or send what you watch. When you open the popup it can report how many ad breaks it handled on that page. That number is not saved.
 - **Page access (content script):** MAD Blocker sets a marker on pages so ad containers can be hidden. It does not read or change page text, forms or cookies.
 
 ## Limits
@@ -31,3 +32,19 @@ MAD Blocker reduces ads and trackers. It is not antivirus software and does not 
 ## Changes and contact
 
 If this policy changes, the date above changes and the change is listed in the repository history. Questions or security reports: use the Security tab of the project's GitHub repository.
+
+## YouTube Page-World Script
+
+One small script (`youtube-main.js`) runs inside YouTube's own page,
+only on `www.youtube.com` and `m.youtube.com`.
+
+It removes three ad-related fields from YouTube's player data:
+`adPlacements`, `playerAds`, and `adSlots`.
+
+The script does not store or transmit browsing data or make network
+requests. It is controlled by the MAD Blocker pause switch and the
+"YouTube ad skipping" protection setting.
+
+On the very first page load, YouTube ad fields may be stripped before
+settings finish loading. This is harmless; subsequent processing
+respects the user's settings.

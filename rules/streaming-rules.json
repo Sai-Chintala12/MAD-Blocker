@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "requestDomains": [
+        "a-ads.com",
+        "ad-maven.com",
+        "admaven.com",
+        "adcash.com",
+        "adsco.re",
+        "adsterra.com",
+        "clickadilla.com",
+        "clickadu.com",
+        "exoclick.com",
+        "exdynsrv.com",
+        "exosrv.com",
+        "hilltopads.net",
+        "juicyads.com",
+        "monetag.com",
+        "mgid.com",
+        "onclickads.net",
+        "plugrush.com",
+        "popads.net",
+        "popcash.net",
+        "propellerads.com",
+        "revcontent.com",
+        "trafficstars.com",
+        "tsyndicate.com"
+      ],
+      "resourceTypes": [
+        "main_frame",
+        "sub_frame",
+        "script",
+        "xmlhttprequest",
+        "image",
+        "ping",
+        "media",
+        "other"
+      ]
+    }
+  }
+]

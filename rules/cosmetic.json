@@ -1,0 +1,58 @@
+{
+  "_help": "Edit this file, then run: npm run build. That regenerates src/content/page-cleanup.css. Selectors are validated by tests (npm test).",
+  "generic": [
+    "ins.adsbygoogle",
+    ".adsbygoogle",
+    "[id^=\"google_ads_iframe\"]",
+    "[id^=\"google_ads_frame\"]",
+    "[id^=\"div-gpt-ad\"]",
+    "[data-google-query-id]",
+    "amp-ad",
+    "amp-embed[type=\"taboola\"]",
+    "amp-embed[type=\"outbrain\"]",
+    "[id^=\"taboola-\"]",
+    ".trc_rbox_container",
+    ".trc_related_container",
+    ".OUTBRAIN",
+    ".ob-widget",
+    "[id^=\"aswift_\"]",
+    ".google-auto-placed",
+    "[id^=\"gpt_unit_\"]",
+    "ins[data-revive-zoneid]",
+    ".adthrive-ad",
+    ".ezoic-ad",
+    "[id^=\"ezoic-pub-ad-placeholder\"]",
+    ".mv-ad-box",
+    "#carbonads",
+    ".carbon-wrap"
+  ],
+  "overlays": [
+    "ins.adsbygoogle[data-anchor-status]",
+    "ins.adsbygoogle[data-vignette-status]",
+    "iframe[id^=\"google_ads_iframe\"][style*=\"position: fixed\"]",
+    "amp-sticky-ad",
+    "ins.adsbygoogle[data-vignette-loaded]"
+  ],
+  "sites": {
+    "youtube.com": [
+      "ytd-ad-slot-renderer",
+      "ytd-in-feed-ad-layout-renderer",
+      "ytd-display-ad-renderer",
+      "ytd-promoted-sparkles-web-renderer",
+      "ytd-promoted-video-renderer",
+      "ytd-banner-promo-renderer",
+      "ytd-statement-banner-renderer",
+      "ytd-companion-slot-renderer",
+      "ytd-action-companion-ad-renderer",
+      "ytd-player-legacy-desktop-watch-ads-renderer",
+      "ytd-rich-item-renderer:has(ytd-ad-slot-renderer)",
+      "ytd-engagement-panel-section-list-renderer[target-id=\"engagement-panel-ads\"]",
+      "#masthead-ad",
+      "#player-ads",
+      ".ytp-ad-overlay-container",
+      ".ytp-ad-image-overlay",
+      "ytd-rich-section-renderer:has(a[href^=\"/playables\"])",
+      ".ytp-ad-text-overlay"
+    ]
+  }
+}

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { validateRuleList, MAX_RULES } from '../src/shared/rules-validate.js';
 import {
   buildAllowRules, buildAggressiveRules, buildDynamicRules,
-  ALLOW_RULE_PRIORITY, AGGRESSIVE_BASE_ID, AGGRESSIVE_URL_FILTERS
+  ALLOW_RULE_PRIORITY, AGGRESSIVE_BASE_ID, AGGRESSIVE_URL_FILTERS, rulesetPlan, STATIC_RULESETS
 } from '../src/shared/rules.js';
 import { validateSettings } from '../src/shared/settings.js';
 
@@ -128,4 +128,62 @@ test('no dynamic rules at all while MAD Blocker is off', () => {
     sites: [{ host: 'a.example.com', mode: 'aggressive' }, { host: 'b.example.com', mode: 'paused' }]
   });
   assert.deepEqual(buildDynamicRules(settings), []);
+});
+
+// --- YouTube and streaming rule files ----------------------------------------------
+
+const manifest = read('../manifest.json');
+const ruleFile = (id) => manifest.declarative_net_request.rule_resources.find((r) => r.id === id).path;
+
+test('every static ruleset in the manifest is known to rulesetPlan, and the other way round', () => {
+  const ids = manifest.declarative_net_request.rule_resources.map((r) => r.id).sort();
+  assert.deepEqual(ids, Object.keys(STATIC_RULESETS).sort());
+});
+
+test('YouTube rules pass the strict validator and only target YouTube addresses', () => {
+  const rules = read('../' + ruleFile('youtube_rules'));
+  assert.deepEqual(validateRuleList(rules), []);
+  assert.ok(rules.length > 0);
+  for (const r of rules) {
+    assert.match(r.condition.urlFilter, /^\|\|youtube\.com\//, 'YouTube rules must be anchored to youtube.com');
+    assert.ok(!r.condition.resourceTypes.includes('main_frame') && !r.condition.resourceTypes.includes('media'),
+      'YouTube rules must never block page loads or the video stream itself');
+  }
+});
+
+test('streaming rules are valid only with the bundled-list option, and name their domains', () => {
+  const rules = read('../' + ruleFile('streaming_rules'));
+  assert.deepEqual(validateRuleList(rules, { allowMainFrameBlock: true }), []);
+  assert.ok(validateRuleList(rules).some((e) => e.includes('main_frame')), 'the strict validator still refuses them');
+  for (const r of rules) assert.ok(Array.isArray(r.condition.requestDomains) && r.condition.requestDomains.length > 0);
+});
+
+test('the main_frame option still demands named domains and does not widen anything else', () => {
+  const noDomains = { id: 1, priority: 1, action: { type: 'block' }, condition: { urlFilter: '||example.com/x', resourceTypes: ['main_frame'] } };
+  assert.ok(validateRuleList([noDomains], { allowMainFrameBlock: true }).some((e) => e.includes('requestDomains')));
+  const regex = { id: 1, priority: 1, action: { type: 'block' }, condition: { regexFilter: '.*', requestDomains: ['a.example.com'], resourceTypes: ['main_frame'] } };
+  assert.ok(validateRuleList([regex], { allowMainFrameBlock: true }).some((e) => e.includes('regexFilter')));
+  const redirect = { id: 1, priority: 1, action: { type: 'redirect' }, condition: { requestDomains: ['a.example.com'], resourceTypes: ['main_frame'] } };
+  assert.ok(validateRuleList([redirect], { allowMainFrameBlock: true }).some((e) => e.includes('not allowed')));
+});
+
+test('streaming list never names a site people browse on purpose', () => {
+  const domains = read('../' + ruleFile('streaming_rules')).flatMap((r) => r.condition.requestDomains);
+  for (const safe of ['youtube.com', 'google.com', 'googlevideo.com', 'netflix.com', 'wikipedia.org', 'github.com', 'amazon.com']) {
+    assert.ok(!domains.includes(safe), safe);
+  }
+  assert.equal(new Set(domains).size, domains.length, 'no duplicates');
+});
+
+test('rulesetPlan follows the on/off switch and each protection', () => {
+  const all = validateSettings({});
+  assert.deepEqual(rulesetPlan(all), { enable: ['default_rules', 'youtube_rules', 'streaming_rules'], disable: [] });
+  const noYt = validateSettings({ features: { youtubeNetwork: false } });
+  assert.deepEqual(rulesetPlan(noYt), { enable: ['default_rules', 'streaming_rules'], disable: ['youtube_rules'] });
+  const noStream = validateSettings({ features: { streaming: false } });
+  assert.deepEqual(rulesetPlan(noStream), { enable: ['default_rules', 'youtube_rules'], disable: ['streaming_rules'] });
+  const off = validateSettings({ enabled: false });
+  assert.deepEqual(rulesetPlan(off), { enable: [], disable: ['default_rules', 'youtube_rules', 'streaming_rules'] });
+  // the skipper switch does not touch network rules
+  assert.deepEqual(rulesetPlan(validateSettings({ features: { youtubeSkip: false } })), rulesetPlan(all));
 });
