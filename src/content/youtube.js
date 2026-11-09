@@ -99,7 +99,7 @@ const hasAdParts = () =>
     gaveUp = reason;
     stopTicker();
     restore();
-    resetCounters();
+    acted = false;
   }
 
   function tick() {

@@ -45,13 +45,29 @@
       "run_at": "document_start",
       "all_frames": true
     },
-{
-  "matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"],
-  "js": ["src/content/youtube-main.js"],
-  "run_at": "document_start",
-  "world": "MAIN",
-  "all_frames": false
-}
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
+      ],
+      "js": [
+        "src/content/youtube.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
+      ],
+      "js": [
+        "src/content/youtube-main.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": false
+    }
   ],
   "declarative_net_request": {
     "rule_resources": [
@@ -75,7 +91,4 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   }
-
-  
 }
-
